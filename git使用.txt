@@ -1,0 +1,154 @@
+下载git
+配置git
+初始化本地仓库，并提交到远程/从远程克隆
+分支管理
+提交、更新、解决冲突、本地恢复、提交记录查看
+
+配置git
+	git config --global user.name="xxx"
+	git config --global user.email="aaa@bbb.com"
+	ssh-keygen -t rsa -C "aaa@bbb.com"
+		产生~/.ssh id_rsa id_rsa.pub,把id_rsa.pub文件内容粘贴到远程仓库
+
+	git config --list 列出所有 Git 当时能找到的配置
+	git help <verb> 获取帮助
+	
+
+初始化本地仓库，并提交到远程/从远程克隆
+	cd existing-project
+	git init
+	git add --all
+	git commit -m "说明"
+	git remote add origin ssh://git@github.com:guodong94/SpringBoot.git 添加一个远程仓库origin为仓库简写
+	git remote rename pb paul 远程仓库重命名
+	git remote rm paul  移除远程仓库
+	git push -u origin master
+
+	git clone ssh://git@github.com:guodong94/SpringBoot.git
+
+分支管理
+	git branch 查看
+	git branch -v 查看分支最后一次提交
+	git branch --merged 查看哪些分支已经合并到当前分支
+	git branch --merged 查看所有包含未合并工作的分支
+	git branch dev 创建分支
+	git checkout dev 切换分支
+	git checkout -b dev 创建+切换分支
+	git merge dev 合并某分支到当前分支
+	git branch -d dev 删除分支（未合并的删除会报错）
+	git branch -D 强制删除分支
+	git branch -m dev dev2 重命名分支
+	git push origin dev 推送到远程分支（其他用户更新才可以看到分支）
+	git push origin --delete dev 删除远程分支
+
+提交、更新、解决冲突、本地恢复、提交记录查看（单文件操作，批量操作）
+	提交
+		git add 提交/git rm file 移除
+	
+	更新
+		git pull
+		git status 检查当前文件状态
+		git mv file_from file_to 文件重命名
+
+	恢复	git commit -m 'initial commit'
+		git add forgotten_file
+		git commit --amend 尝试重新提交（内容没变化修改提示信息），第二次提交将代替第一次提交的结果
+
+		git checkout -- filename.txt
+		git reset filename.txt 撤销暂存区内容、unstaged
+		git reset HEAD <file>
+		revert相当于上面的两个命令
+
+		git reset --hard 提交之后恢复。相当于最新版本更新本地
+
+	解决冲突
+		git status 查看冲突原因
+		git mergetool  启动可视化合并工具
+		
+	
+	提交记录查看
+		git branch -v 查看每一个分支的最后一次提交
+		git diff --cached / git diff --staged 查看未提交的内容和暂存区中的内容比较
+		git log -p -2    -p内容的差异 -2最近两次
+		git log --stat  每次提交的简略的统计信息
+		git log --pretty=online   oneline将每个提交放在一行显示
+		git log --graph --pretty=online --abbrev-commit
+
+
+
+git log --pretty=format:"%h - %an, %ar : %s" 可以定制要显示的记录格式
+	
+	选项	说明
+	%H	提交对象（commit）的完整哈希字串
+
+	%h	提交对象的简短哈希字串
+
+	%T	树对象（tree）的完整哈希字串
+
+	%t	树对象的简短哈希字串
+
+	%P	父对象（parent）的完整哈希字串
+
+	%p	父对象的简短哈希字串
+
+	%an	作者（author）的名字
+
+	%ae	作者的电子邮件地址
+
+	%ad	作者修订日期（可以用 --date= 选项定制格式）
+
+	%ar	作者修订日期，按多久以前的方式显示
+
+	%cn	提交者（committer）的名字
+
+	%ce	提交者的电子邮件地址
+
+	%cd	提交日期
+
+	%cr	提交日期，按多久以前的方式显示
+
+	%s	提交说明
+
+
+git log 的常用选项
+
+	选项		说明
+	-p		按补丁格式显示每个更新之间的差异。
+
+	--stat		显示每次更新的文件修改统计信息。
+
+	--shortstat	只显示 --stat 中最后的行数修改添加移除统计。
+
+	--name-only	仅在提交信息后显示已修改的文件清单。
+
+	--name-status	显示新增、修改、删除的文件清单。
+
+	--abbrev-commit	仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。
+
+	--relative-date	使用较短的相对时间显示（比如，“2 weeks ago”）。
+
+	--graph		显示 ASCII 图形表示的分支合并历史。
+
+	--pretty	使用其他格式显示历史提交信息。可用的选项包括 oneline，short，full，fuller 和 format（后跟指定格式）。
+
+
+限制 git log 输出的选项
+
+	选项			说明
+	-(n)			仅显示最近的 n 条提交
+	
+	--since, --after	仅显示指定时间之后的提交。
+
+	--until, --before	仅显示指定时间之前的提交。
+
+	--author		仅显示指定作者相关的提交。
+
+	--committer		仅显示指定提交者相关的提交。
+
+	--grep			仅显示含指定关键字的提交
+
+	-S			仅显示添加或移除了某个关键字的提交
+
+
+打标签
+	git tag
